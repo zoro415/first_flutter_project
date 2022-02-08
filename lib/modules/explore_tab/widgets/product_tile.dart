@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:grocery_nepal/constants.dart';
 import 'package:grocery_nepal/data/models/product.dart';
 import 'package:grocery_nepal/modules/prdouct_detail/prdocut_detail_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:grocery_nepal/widgets/loading.dart';
 
 class ProductTile extends StatelessWidget {
   ProductTile({required this.product});
@@ -40,8 +42,22 @@ class ProductTile extends StatelessWidget {
           children: [
             Expanded(
               child: Center(
-                child: Image.asset(
-                  product.image,
+                child:
+                    // CachedNetworkImage(
+                    //   imageUrl: imageUrl + product.image,
+                    //   placeholder: (context, url) => Loading(
+                    //     size: 200,
+                    //   ),
+                    //   errorWidget: (context, url, error) => Icon(Icons.error),
+                    // ),
+                    Image.network(
+                  imageUrl + product.image,
+                  errorBuilder: (context, url, error) {
+                    return Image.asset(
+                      'assets/images/cabbage.png',
+                      fit: BoxFit.cover,
+                    );
+                  },
                 ),
               ),
             ),

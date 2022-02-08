@@ -1,25 +1,25 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:grocery_nepal/app_controller.dart';
 import 'package:grocery_nepal/constants.dart';
 import 'package:grocery_nepal/modules/auth/login/login_screen.dart';
 import 'package:get/get.dart';
 
-import '../../../app_controller.dart';
-
-class LogoutButton extends StatelessWidget {
-  const LogoutButton({Key? key}) : super(key: key);
+class LoginButton extends StatelessWidget {
+  const LoginButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: () {
         // Navigator.pushNamed(context, '/login');
-        Get.find<AppController>().logout();
 
         // Navigator.push(
         //     context,
         //     MaterialPageRoute(builder: (context) => LoginScreen()));
+        // Get.find<AppController>().login();
+        Get.to(() => LoginScreen());
       },
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -29,22 +29,22 @@ class LogoutButton extends StatelessWidget {
           children: [
             Center(
               child: Text(
-                'Log Out',
+                'Log In',
                 style: TextStyle(
-                  color: greenColor,
+                  color: Colors.white,
                   fontSize: 17,
                 ),
               ),
             ),
             Icon(
-              Icons.logout,
-              color: greenColor,
+              Icons.login,
+              color: Colors.white,
             )
           ],
         ),
       ),
-      color: Colors.grey.shade300,
-      elevation: 0,
+      color: greenColor,
+      elevation: 3,
     );
   }
 }

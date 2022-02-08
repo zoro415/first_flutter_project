@@ -17,9 +17,14 @@ class ImageContainer extends StatelessWidget {
           borderRadius: BorderRadius.circular(20)),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
-        child: Image.asset(
+        child: Image.network(
           productImage,
-          fit: BoxFit.fitHeight,
+          errorBuilder: (context, url, error) {
+            return Image.asset(
+              'assets/images/cabbage.png',
+              fit: BoxFit.fitHeight,
+            );
+          },
         ),
       ),
     );

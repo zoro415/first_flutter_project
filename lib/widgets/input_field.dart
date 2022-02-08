@@ -9,17 +9,18 @@ class InputField extends StatelessWidget {
   final TextInputType inputType;
   final TextInputAction textInputAction;
   final int maxLines;
+  final TextEditingController? controller;
 
-  InputField(
-    this.label, {
-    this.inputType = TextInputType.text,
-    this.textInputAction = TextInputAction.done,
-    this.maxLines = 1,
-  });
+  InputField(this.label,
+      {this.inputType = TextInputType.text,
+      this.textInputAction = TextInputAction.done,
+      this.maxLines = 1,
+      this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       textInputAction: textInputAction,
       keyboardType: inputType,
       maxLines: maxLines,

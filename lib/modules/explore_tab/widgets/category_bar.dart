@@ -14,61 +14,64 @@ final List<Category> categories = [
   Category(name: 'Vegetables', icon: 'assets/icons/vegetable.svg'),
 ];
 
-final List<Product> products = [
-  Product(
-      id: 1,
-      name: 'Cabbage',
-      image: 'assets/images/cabbage.png',
-      description: 'Green crop',
-      price: 250,
-      category: 'Vegetables',
-      unit: '2kg'),
-  Product(
-      id: 2,
-      name: 'Tuna',
-      image: 'assets/images/cabbage.png',
-      description: 'Healthy fish',
-      price: 550,
-      category: 'Fish',
-      unit: '1pc'),
-  Product(
-      id: 3,
-      name: 'Mango',
-      image: 'assets/images/cabbage.png',
-      description: 'Tasty',
-      price: 150,
-      category: 'Fruit',
-      unit: '1kg'),
-  Product(
-      id: 4,
-      name: 'Chicken',
-      image: 'assets/images/cabbage.png',
-      description: 'Fiesty',
-      price: 250,
-      category: 'Meat',
-      unit: '1kg'),
-  Product(
-      id: 5,
-      name: 'Mutton',
-      image: 'assets/images/cabbage.png',
-      description: 'Tender',
-      price: 500,
-      category: 'Meat',
-      unit: '1kg'),
-  Product(
-      id: 6,
-      name: 'Salmon',
-      image: 'assets/images/cabbage.png',
-      description: 'Slender body',
-      price: 1550,
-      category: 'Fish',
-      unit: '5pcs'),
-];
+// final List<Product> products = [
+//   Product(
+//       id: 1,
+//       name: 'Cabbage',
+//       image: 'assets/images/cabbage.png',
+//       description: 'Green crop',
+//       price: 250,
+//       category: 'Vegetables',
+//       unit: '2kg'),
+//   Product(
+//       id: 2,
+//       name: 'Tuna',
+//       image: 'assets/images/cabbage.png',
+//       description: 'Healthy fish',
+//       price: 550,
+//       category: 'Fish',
+//       unit: '1pc'),
+//   Product(
+//       id: 3,
+//       name: 'Mango',
+//       image: 'assets/images/cabbage.png',
+//       description: 'Tasty',
+//       price: 150,
+//       category: 'Fruit',
+//       unit: '1kg'),
+//   Product(
+//       id: 4,
+//       name: 'Chicken',
+//       image: 'assets/images/cabbage.png',
+//       description: 'Fiesty',
+//       price: 250,
+//       category: 'Meat',
+//       unit: '1kg'),
+//   Product(
+//       id: 5,
+//       name: 'Mutton',
+//       image: 'assets/images/cabbage.png',
+//       description: 'Tender',
+//       price: 500,
+//       category: 'Meat',
+//       unit: '1kg'),
+//   Product(
+//       id: 6,
+//       name: 'Salmon',
+//       image: 'assets/images/cabbage.png',
+//       description: 'Slender body',
+//       price: 1550,
+//       category: 'Fish',
+//       unit: '5pcs'),
+// ];
 
 class CategoryBar extends StatefulWidget {
   const CategoryBar({
+    required this.products,
     Key? key,
   }) : super(key: key);
+
+  final List<Product> products;
 
   @override
   State<CategoryBar> createState() => _CategoryBarState();
@@ -81,9 +84,9 @@ class _CategoryBarState extends State<CategoryBar> {
     List<Product> categoryItem = [];
 
     if (selectedCategory == "All") {
-      categoryItem = products;
+      categoryItem = widget.products;
     } else {
-      for (Product product in products) {
+      for (Product product in widget.products) {
         if (selectedCategory == product.category) {
           categoryItem.add(product);
         }

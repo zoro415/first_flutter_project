@@ -1,4 +1,8 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:grocery_nepal/app_controller.dart';
 import 'package:grocery_nepal/constants.dart';
 
 class UserDetailBar extends StatelessWidget {
@@ -8,6 +12,7 @@ class UserDetailBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appController = Get.find<AppController>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
@@ -27,14 +32,14 @@ class UserDetailBar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Cheetiz Gurung',
+                appController.userProfile!.name ?? '',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
               ),
               Text(
-                'cheetizgurung@gmail.com',
+                appController.userProfile!.email ?? '',
                 style: TextStyle(
                   color: greyColor,
                 ),

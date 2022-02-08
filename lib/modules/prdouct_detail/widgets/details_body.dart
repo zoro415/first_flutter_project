@@ -21,7 +21,7 @@ class DetailsBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ImageContainer(productImage: product.image),
+            ImageContainer(productImage: imageUrl + product.image),
             SizedBox(
               height: 10,
             ),
