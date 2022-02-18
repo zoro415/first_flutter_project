@@ -6,16 +6,25 @@ import 'package:grocery_nepal/app_controller.dart';
 import 'package:grocery_nepal/constants.dart';
 import 'package:grocery_nepal/modules/auth/login/login_screen.dart';
 import 'package:grocery_nepal/modules/auth/register/register_screen.dart';
+import 'package:grocery_nepal/modules/favourites/favorite_controller.dart';
 import 'package:grocery_nepal/modules/home/home_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'modules/cart_tab/cart_controller.dart';
+import 'modules/order_tab/order_controller.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  var sharedPref = await SharedPreferences.getInstance();
+
+  runApp(MyApp(sharedPref));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp(this.sharedPreferences, {Key? key}) : super(key: key);
+  final SharedPreferences sharedPreferences;
 
   // This widget is the root of your application.
   @override
@@ -41,7 +50,10 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       initialBinding: BindingsBuilder(() {
-        Get.put(AppController(), permanent: true);
+        Get.put(OrderTabConrtoller());
+        Get.put(AppController(sharedPreferences), permanent: true);
+        Get.put(FavoriteController(), permanent: true);
+        Get.put(CartController(), permanent: true);
       }),
       routes: {
         '/': (context) => const HomeScreen(),

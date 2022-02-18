@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:grocery_nepal/constants.dart';
-import 'package:grocery_nepal/data/models/product.dart';
+import 'package:grocery_nepal/data/models/product/product.dart';
 import 'product_detail_container.dart';
 import 'product_counter.dart';
 
@@ -39,7 +39,7 @@ class DetailsBody extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ProductCounter(1),
+                ProductCounter(),
                 Text(
                   'Rs. ${product.price}',
                   style: TextStyle(

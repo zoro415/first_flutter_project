@@ -1,25 +1,26 @@
 import 'package:get/get.dart';
-import 'package:grocery_nepal/data/api/product_api.dart';
-import 'package:grocery_nepal/data/models/product/product.dart';
+import 'package:grocery_nepal/data/api/order_api.dart';
+import 'package:grocery_nepal/data/models/order/order_detail.dart';
 
-class ExploreTabConrtoller extends GetxController {
+class OrderDetailController extends GetxController {
   final isLoading = false.obs;
   final isError = false.obs;
-
   String errorMessage = "";
-  List<Product> products = [];
+  OrderDetail? orderDetail;
+  late final int orderId;
 
   @override
   void onInit() {
     super.onInit();
-    getProducts();
+    orderId = Get.arguments;
+    getOrderDetails();
   }
 
-  Future<void> getProducts() async {
+  Future<void> getOrderDetails() async {
     isLoading(true);
     isError(false);
     try {
-      products = await ProductApi.getProducts();
+      orderDetail = await OrderApi.getOrderDetail(orderId);
       isLoading(false);
     } catch (e) {
       isLoading(false);
@@ -29,7 +30,6 @@ class ExploreTabConrtoller extends GetxController {
       } else {
         errorMessage = "Failed to load data";
       }
-      errorMessage = e.toString();
     }
   }
 }

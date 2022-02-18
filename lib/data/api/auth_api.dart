@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
+import 'package:grocery_nepal/app_controller.dart';
 import 'package:grocery_nepal/constants.dart';
-import 'package:grocery_nepal/data/models/login_request.dart';
-import 'package:grocery_nepal/data/models/login_response.dart';
-import 'package:grocery_nepal/data/models/register_request.dart';
+import 'package:grocery_nepal/data/models/auth/login_request.dart';
+import 'package:grocery_nepal/data/models/auth/login_response.dart';
+import 'package:grocery_nepal/data/models/auth/register_request.dart';
 import 'package:http/http.dart' as http;
 
 class AuthApi {
@@ -22,7 +24,11 @@ class AuthApi {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      return LoginResponse.fromJson(data);
+      LoginResponse loginResponse = LoginResponse.fromJson(data);
+      await Get.find<AppController>()
+          .sharedPreferences
+          .setString('token', loginResponse.token ?? '');
+      return loginResponse;
     } else if (response.statusCode == 401) {
       throw Exception('Invalid Credentials');
     } else {
@@ -47,11 +53,44 @@ class AuthApi {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      return LoginResponse.fromJson(data);
+      LoginResponse loginResponse = LoginResponse.fromJson(data);
+      await Get.find<AppController>()
+          .sharedPreferences
+          .setString('token', loginResponse.token ?? '');
+      return loginResponse;
     } else if (response.statusCode == 401) {
       throw Exception('Invalid Credentials');
     } else {
-      throw Exception('Unable to login');
+      throw Exception('Trouble Registering');
+    }
+  }
+
+  static Future<LoginResponse> changePassword(
+      {required String password}) async {
+    final url = baseUrl + "users/change-password/";
+    final request = jsonEncode({"password": password});
+    String token =
+        Get.find<AppController>().sharedPreferences.getString('token') ?? '';
+    final response = await http.put(
+      Uri.parse(url),
+      body: request,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      LoginResponse loginResponse = LoginResponse.fromJson(data);
+      await Get.find<AppController>()
+          .sharedPreferences
+          .setString('token', loginResponse.token ?? '');
+      return loginResponse;
+    } else if (response.statusCode == 401) {
+      throw Exception('Invalid Credentials');
+    } else {
+      throw Exception('Something went wrong');
     }
   }
 }

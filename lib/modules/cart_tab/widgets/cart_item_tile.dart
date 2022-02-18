@@ -1,12 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:grocery_nepal/constants.dart';
-import 'package:grocery_nepal/data/models/cart_item.dart';
-import 'package:grocery_nepal/data/models/product.dart';
+import 'package:get/get.dart';
+import 'package:grocery_nepal/data/models/order/cart_item.dart';
+import 'package:grocery_nepal/modules/cart_tab/cart_controller.dart';
 import 'package:grocery_nepal/modules/cart_tab/widgets/product_counter.dart';
-import 'package:grocery_nepal/modules/explore_tab/widgets/category_bar.dart';
+
+import '../../../constants.dart';
 
 class CartItemTile extends StatelessWidget {
   CartItemTile(this.cartItem);
@@ -20,11 +21,20 @@ class CartItemTile extends StatelessWidget {
           padding: const EdgeInsets.all(10),
           child: Row(
             children: [
-              Image.asset(
-                cartItem.product.image,
+              // Image.asset(
+              //   cartItem.product.image,
+              //   width: 50,
+              //   height: 50,
+              // ),
+              CachedNetworkImage(
+                imageUrl: imageUrl + cartItem.product.image,
+                errorWidget: (context, url, error) =>
+                    Image.asset('assets/images/cabbage.png'),
+                fit: BoxFit.cover,
                 width: 50,
                 height: 50,
               ),
+
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -43,7 +53,7 @@ class CartItemTile extends StatelessWidget {
                           fontSize: 10,
                         ),
                       ),
-                      ProductCounter(cartItem.quantity),
+                      ProductCounter(cartItem),
                     ],
                   ),
                 ),
@@ -61,7 +71,29 @@ class CartItemTile extends StatelessWidget {
                     //   ),
                     // ),
                     InkWell(
-                      onTap: () {}(),
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  content: Text('Remove product from Cart?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Cancel',
+                                          style: TextStyle(color: Colors.red)),
+                                    ),
+                                    TextButton(
+                                        onPressed: () {
+                                          Get.find<CartController>()
+                                              .removeFromCart(cartItem.product);
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('Remove')),
+                                  ],
+                                ));
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(5),
                         child: Icon(

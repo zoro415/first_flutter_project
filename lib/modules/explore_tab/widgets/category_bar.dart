@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:grocery_nepal/data/models/category.dart';
-import 'package:grocery_nepal/data/models/product.dart';
+import 'package:grocery_nepal/data/models/product/category.dart';
+import 'package:grocery_nepal/data/models/product/product.dart';
 import 'package:grocery_nepal/modules/explore_tab/widgets/product_tile.dart';
 import 'category_tile.dart';
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/sockets/src/socket_notifier.dart';
 import 'package:grocery_nepal/data/api/auth_api.dart';
 
 import '../../../app_controller.dart';

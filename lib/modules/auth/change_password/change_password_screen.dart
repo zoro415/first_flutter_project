@@ -1,5 +1,10 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:grocery_nepal/modules/auth/change_password/change_password_controller.dart';
 import 'package:grocery_nepal/widgets/custom_button.dart';
+import 'package:grocery_nepal/widgets/loading.dart';
 import 'package:grocery_nepal/widgets/password_field.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
@@ -7,12 +12,7 @@ class ChangePasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _oldPasswordController =
-        TextEditingController();
-    final TextEditingController _newPasswordController =
-        TextEditingController();
-    final TextEditingController _confirmPasswordController =
-        TextEditingController();
+    final controller = Get.put(ChangePasswordController());
 
     return Scaffold(
       appBar: AppBar(
@@ -25,37 +25,30 @@ class ChangePasswordScreen extends StatelessWidget {
             children: [
               PasswordField(
                 'Old Password',
-                controller: _oldPasswordController,
+                controller: controller.oldPasswordController,
               ),
               SizedBox(
                 height: 30,
               ),
               PasswordField(
                 'New Password',
-                controller: _newPasswordController,
+                controller: controller.newPasswordController,
               ),
               SizedBox(
                 height: 30,
               ),
               PasswordField(
                 'Confirm Password',
-                controller: _confirmPasswordController,
+                controller: controller.confirmPasswordController,
               ),
               SizedBox(
                 height: 30,
               ),
-              CustomButton('Change Password', () {
-                if (_newPasswordController.text.trim().isEmpty) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text('Empty Password')));
-                } else if (_newPasswordController.text.trim() ==
-                    _confirmPasswordController.text.trim()) {
-                  Navigator.popUntil(context, ModalRoute.withName('/'));
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Password Not Matched')));
-                }
-              }),
+              Obx(() => controller.isLoading.isTrue
+                  ? Loading(
+                      size: 100,
+                    )
+                  : CustomButton('Change Password', controller.changePassword)),
             ],
           ),
         ),

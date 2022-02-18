@@ -62,10 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           icon: Icons.edit_outlined,
                           label: 'Edit Profile',
                           onPress: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EditDetailsScreen()));
+                            Get.to(EditDetailsScreen());
                           },
                         ),
                         ItemTile(

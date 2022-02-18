@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grocery_nepal/app_controller.dart';
 import 'package:grocery_nepal/constants.dart';
+import 'package:grocery_nepal/widgets/loading.dart';
 
 class UserDetailBar extends StatelessWidget {
   const UserDetailBar({
@@ -28,23 +29,39 @@ class UserDetailBar extends StatelessWidget {
           SizedBox(
             width: 15,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                appController.userProfile!.name ?? '',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              Text(
-                appController.userProfile!.email ?? '',
-                style: TextStyle(
-                  color: greyColor,
-                ),
-              )
-            ],
+          Obx(
+            () => appController.isProfileLoading.isTrue
+                ? Loading(
+                    size: 10,
+                  )
+                : appController.isNoInternet.isTrue
+                    ? ElevatedButton(
+                        onPressed: () {
+                          String? token = appController.sharedPreferences
+                              .getString('token');
+                          appController.getUserProfile(token ?? '');
+                        },
+                        child: Text('Try Again'))
+                    : GetBuilder<AppController>(builder: (controller) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              controller.userProfile!.name ?? '',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text(
+                              controller.userProfile!.email ?? '',
+                              style: TextStyle(
+                                color: greyColor,
+                              ),
+                            )
+                          ],
+                        );
+                      }),
           )
         ],
       ),

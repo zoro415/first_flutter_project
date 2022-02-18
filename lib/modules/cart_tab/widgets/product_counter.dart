@@ -1,27 +1,17 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:grocery_nepal/constants.dart';
+import 'package:grocery_nepal/data/models/order/cart_item.dart';
 import 'package:grocery_nepal/modules/cart_tab/widgets/counter_down.dart';
 import 'package:grocery_nepal/modules/cart_tab/widgets/counter_up.dart';
 
-class ProductCounter extends StatefulWidget {
-  ProductCounter(this.quantity);
-  final int quantity;
+import '../cart_controller.dart';
 
-  @override
-  State<ProductCounter> createState() => _ProductCounterState();
-}
-
-class _ProductCounterState extends State<ProductCounter> {
-  int count = 1;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    count = widget.quantity;
-  }
+class ProductCounter extends StatelessWidget {
+  ProductCounter(this.item);
+  final CartItem item;
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +32,9 @@ class _ProductCounterState extends State<ProductCounter> {
                 //   });
                 // }
 
-                if (count > 1) {
-                  setState(() {
-                    count--;
-                  });
+                if (item.quantity > 1) {
+                  Get.find<CartController>().changeQuantity(
+                      CartItem(item.product, item.quantity - 1));
                 }
               },
             ),
@@ -55,13 +44,17 @@ class _ProductCounterState extends State<ProductCounter> {
                 decoration: BoxDecoration(
                     color: Colors.grey.shade300,
                     borderRadius: BorderRadius.circular(8)),
-                child: Text("${count}")),
+                child: Text("${item.quantity}")),
             InkWell(
               child: CounterUp(),
               onTap: () {
-                setState(() {
-                  count++;
-                });
+                // setState(() {
+                //   count++;
+                // });
+                // Get.find<CartController>()
+                //     .changeQuantity(widget.item.product, count);
+                Get.find<CartController>()
+                    .changeQuantity(CartItem(item.product, item.quantity + 1));
               },
             ),
           ],

@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:grocery_nepal/constants.dart';
-import 'package:grocery_nepal/data/models/product.dart';
+import 'package:grocery_nepal/data/models/product/product.dart';
+import 'package:grocery_nepal/modules/cart_tab/cart_controller.dart';
 import 'package:grocery_nepal/modules/prdouct_detail/prdocut_detail_screen.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:grocery_nepal/widgets/loading.dart';
 
 class ProductTile extends StatelessWidget {
   ProductTile({required this.product});
@@ -16,10 +16,12 @@ class ProductTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ProductDetailScreen(product: product)));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => ProductDetailScreen(product: product)));
+
+        Get.to(() => ProductDetailScreen(), arguments: product);
       },
       child: Container(
         height: 180,
@@ -94,6 +96,7 @@ class ProductTile extends StatelessWidget {
                       backgroundColor: greenColor,
                       duration: Duration(milliseconds: 1200),
                     ));
+                    Get.find<CartController>().addToCart(product);
                   },
                   child: Container(
                     alignment: Alignment.center,
